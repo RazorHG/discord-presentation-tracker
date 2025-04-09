@@ -1,10 +1,10 @@
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from  'node:fs';
+import path from  'node:path';
 
 // Require the necessary discord.js classes
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
+import { token } from '../config.json';
 
 
 
@@ -22,6 +22,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
+	console.log(commandsPath);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);

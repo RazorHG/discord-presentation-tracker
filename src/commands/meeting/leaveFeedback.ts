@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, GuildScheduledEventManager, GuildChannelManager } = require('discord.js');
-const _ = require('lodash');
+import { SlashCommandBuilder, GuildScheduledEventManager, GuildChannelManager, Interaction, ChatInputCommandInteraction, Snowflake, TextChannel } from 'discord.js';
+import _  from 'lodash';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,20 +17,14 @@ module.exports = {
 				.setDescription('feedback for user')
 				.setRequired(true)
 		),
-	async execute(interaction) {
-		const guild = await interaction.client.guilds.fetch(interaction.guildId);
-		const eventManager = new GuildScheduledEventManager(guild);
-		const events = await eventManager.fetch();
-		const textChannelMessagedInId = interaction.channelId;
-		const voiceChannelMessagedInId = interaction.member.voice.channelId
-		const channel = interaction.options.getChannel('channel');
+	async execute(interaction: ChatInputCommandInteraction) {
+		const guild = await interaction.client.guilds.fetch(interaction.guildId as Snowflake);
+		const channel = interaction.options.getChannel('channel') as TextChannel;
 		const feedback = interaction.options.getString('feedback');
 
 		console.log(interaction.options)
 		channel.send(`feedback from ${interaction.member}: ${feedback}`)
 		await interaction.reply(`feedback for ${channel}: ${feedback}`);
 
-		// console.log(interaction.member.voice.channelId);
-		// console.log(events);
 	},
 };
