@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, GuildScheduledEventManager, GuildChannelManager, Interaction, ChatInputCommandInteraction, Snowflake, TextChannel } from 'discord.js';
+import { SlashCommandBuilder, GuildScheduledEventManager, GuildChannelManager, Interaction, ChatInputCommandInteraction, Snowflake, TextChannel, MessageFlags } from 'discord.js';
 import _  from 'lodash';
+import { setTimeout } from 'node:timers/promises';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +25,9 @@ module.exports = {
 
 		console.log(interaction.options)
 		channel.send(`feedback from ${interaction.member}: ${feedback}`)
-		await interaction.reply(`feedback for ${channel}: ${feedback}`);
+		await interaction.reply({ content: `feedback for ${channel}: ${feedback}`, flags: MessageFlags.Ephemeral });
+		await setTimeout(5000);
+		await interaction.deleteReply();
 
 	},
 };
